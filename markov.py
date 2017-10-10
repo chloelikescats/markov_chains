@@ -1,6 +1,7 @@
 """Generate Markov text from text files."""
 
 from random import choice
+import string
 
 
 def open_and_read_file(input_path):
@@ -64,7 +65,7 @@ def make_text(chains):
 
     new_key = choice(chains.keys())
     #append words from tup into words
-    words.extend([random_thing[0], random_thing[1]])
+    words.extend([new_key[0], new_key[1]])
 
     # options_at_random_thing = chains[random_thing]
     # random_word = choice(options_at_random_thing)
@@ -76,6 +77,10 @@ def make_text(chains):
         else:
             words.append(choice(chains[new_key]))
             new_key = (words[-2], words[-1])
+    #make line breaks at punctuation
+    for i in range(len(words)):
+        if words[i][-1] in string.punctuation:
+            words[i + 1: i + 1] = '\n'
 
 
     # words.append(choice(chains[random_thing].values())) #append following words
