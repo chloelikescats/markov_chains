@@ -40,44 +40,47 @@ def make_chains(text_string):
         >>> chains[('there','juanita')]
         [None]
     """
-    chains = {}
-    list_of_tuples = []
-    #create list of all words
     list_of_words = text_string.split()
+    list_of_words.append(None)
+    chains = {}
 
-    n = 0
-    for word in list_of_words:
-        if n < len(list_of_words) - 1:
-            list_of_tuples.append(tuple((list_of_words[n], list_of_words[n + 1])))
-            n += 1
-        else:
-            break
+    # n = 0
+    # for word in list_of_words:
 
-    # make all tuples keys in dictionary
-    for item in list_of_tuples:
-        chains[item] = []
+    for i in range(len(list_of_words) - 2):
+        key = tuple((list_of_words[i], list_of_words[i + 1]))
+        value = list_of_words[i + 2]
+        chains.setdefault(key, [])
+        chains[key].append(value)
 
-    # add following words as values to keys in dictionary
-    for key in chains:
-        n = 0
-        for item in list_of_tuples:
-            if n < len(list_of_tuples) - 1:
-                if item == key:
-                    chains[key].append(list_of_tuples[n + 1][1])
-                    n += 1
-                else:
-                    n += 1
-
-
-
+    # print chains
     return chains
+
 
 def make_text(chains):
     """Return text from chains."""
 
     words = []
 
-    # your code goes here
+    random_thing = choice(chains.keys())
+    #append words from tup into words
+    words.extend([random_thing[0], random_thing[1]])
+
+    options_at_random_thing = chains[random_thing]
+    random_word = choice(options_at_random_thing)
+    words.append(random_word)
+
+    while True:
+        new_key = (words[-2], words[-1])
+        if None in chains[new_key]:
+            break
+        else:
+            words.append(choice(chains[new_key]))
+
+
+
+    # words.append(choice(chains[random_thing].values())) #append following words
+    # print words
 
     return " ".join(words)
 
