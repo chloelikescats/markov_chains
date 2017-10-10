@@ -12,12 +12,8 @@ def open_and_read_file(input_path):
 
     with open(input_path) as the_file:
         the_file = the_file.read()
-        string_of_all_text = the_file.rstrip()
-        # string_of_all_text = the_file.read()
 
-    print string_of_all_text
-
-    # return string_of_all_text
+    return the_file
 
 
 def make_chains(text_string):
@@ -40,17 +36,41 @@ def make_chains(text_string):
 
         >>> chains[('hi', 'there')]
         ['mary', 'juanita']
-        
+
         >>> chains[('there','juanita')]
         [None]
     """
-
     chains = {}
+    list_of_tuples = []
+    #create list of all words
+    list_of_words = text_string.split()
 
-    # your code goes here
+    n = 0
+    for word in list_of_words:
+        if n < len(list_of_words) - 1:
+            list_of_tuples.append(tuple((list_of_words[n], list_of_words[n + 1])))
+            n += 1
+        else:
+            break
+
+    # make all tuples keys in dictionary
+    for item in list_of_tuples:
+        chains[item] = []
+
+    # add following words as values to keys in dictionary
+    for key in chains:
+        n = 0
+        for item in list_of_tuples:
+            if n < len(list_of_tuples) - 1:
+                if item == key:
+                    chains[key].append(list_of_tuples[n + 1][1])
+                    n += 1
+                else:
+                    n += 1
+
+
 
     return chains
-
 
 def make_text(chains):
     """Return text from chains."""
