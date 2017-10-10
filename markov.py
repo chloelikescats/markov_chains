@@ -62,21 +62,20 @@ def make_text(chains):
 
     words = []
 
-    random_thing = choice(chains.keys())
+    new_key = choice(chains.keys())
     #append words from tup into words
     words.extend([random_thing[0], random_thing[1]])
 
-    options_at_random_thing = chains[random_thing]
-    random_word = choice(options_at_random_thing)
-    words.append(random_word)
+    # options_at_random_thing = chains[random_thing]
+    # random_word = choice(options_at_random_thing)
+    # words.append(random_word)
 
     while True:
-        new_key = (words[-2], words[-1])
         if None in chains[new_key]:
             break
         else:
             words.append(choice(chains[new_key]))
-
+            new_key = (words[-2], words[-1])
 
 
     # words.append(choice(chains[random_thing].values())) #append following words
