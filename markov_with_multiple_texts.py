@@ -84,7 +84,7 @@ def make_text(chains, n_gram_size):
         # import pdb; pdb.set_trace()
         # if it hits end of doc or 140 characters, stop
 
-        if len(words) >= 140 or (not key in chains):
+        if len(words) >= 70 or (not key in chains):
             words.append("\n")
             break
         #figure out why it ends abruptly, make it elif
@@ -118,6 +118,7 @@ def make_text(chains, n_gram_size):
     for i in range(-1, -len(twitter_length_string), -1):
         if twitter_length_string[i] in set(['.', '?', '!']):
             return twitter_length_string[:i + 1]
+    return twitter_length_string
 
 
 def validate_n_gram_amount(input_text):
