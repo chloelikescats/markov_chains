@@ -74,13 +74,16 @@ def make_text(chains, n_gram_size):
     key = choice(chains.keys())
     ###Choosing length of key
     words.extend(key)
+    #capitalize beginning of poem
+    words[1] = words[1].title()
 
     # options_at_random_thing = chains[random_thing]
     # random_word = choice(options_at_random_thing)
     # words.append(random_word)
 
     while True:
-        if (not key in chains) or len(words) > 1000:
+        # if it hits end of doc or 140 characters, stop
+        if (not key in chains) or len(words) >= 140:
             words.append("\n")
             break
         else:
@@ -92,9 +95,16 @@ def make_text(chains, n_gram_size):
             key = words[-n_gram_size:]
             key = tuple(key)
 
+            #make it break at any punctuation
+            for i in range(len(words)):
+                if words[i][-1] in string.punctuation:
+
+                    #ignore commas but break at all OTHER punc
+                    if not words[i][-1] == ",":
+                        break 
     #make line breaks at punctuation
     for i in range(len(words)):
-        if words[i][-1] in string.punctuation:
+        if words[i][-1] in string.punctuation and words[i][-1] != ",":
             words[i + 1: i + 1] = '\n'
 
     # words.append(choice(chains[random_thing].values())) #append following words
@@ -105,7 +115,7 @@ def make_text(chains, n_gram_size):
 def validate_n_gram_amount(input_text):
     """gets user input, returns int if int can be used as n gram"""
     while True:
-        user_input = raw_input("How many words in n_gram? >")
+        user_input = raw_input("How many words in n_gram? > ")
         try:
             user_input = int(user_input)
         except:
