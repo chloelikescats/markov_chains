@@ -72,26 +72,23 @@ def make_chains(text_string, n_gram_size):
 def make_text(chains, n_gram_size):
     """Return text from chains."""
 
-    words = ['\n']
+    words = []
 
     key = choice(chains.keys())
     ###Choosing length of key
     words.extend(key)
     #capitalize beginning of poem
-    words[1] = words[1].title()
-
-    # options_at_random_thing = chains[random_thing]
-    # random_word = choice(options_at_random_thing)
-    # words.append(random_word)
+    words[0] = words[0].title()
 
     while True:
+        # import pdb; pdb.set_trace()
         # if it hits end of doc or 140 characters, stop
-        if len(words) >= 140:
+
+        if len(words) >= 140 or (not key in chains):
             words.append("\n")
             break
-        elif not key in chains:
-            words.append("\n")
-            break
+        #figure out why it ends abruptly, make it elif
+        #elif
         else:
             # print chains
             new_word = choice(chains[key])
@@ -110,7 +107,7 @@ def make_text(chains, n_gram_size):
                         break
     #make line breaks at punctuation
     for i in range(len(words)):
-        if words[i][-1] in string.punctuation and words[i][-1] != set([',', '--']):
+        if words[i][-1] in string.punctuation and words[i][-1] != ',':
             words[i + 1: i + 1] = '\n'
 
     ####format for twitter#####
