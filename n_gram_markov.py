@@ -1,4 +1,4 @@
-"""Generate Markov text from text files."""
+"""Generate Markov text from text files. Insert n gram length after text file name"""
 
 from random import choice
 import string
@@ -101,7 +101,7 @@ def make_text(chains, n_gram_size):
 
                     #ignore commas but break at all OTHER punc
                     if not words[i][-1] == ",":
-                        break 
+                        break
     #make line breaks at punctuation
     for i in range(len(words)):
         if words[i][-1] in string.punctuation and words[i][-1] != ",":
@@ -115,7 +115,9 @@ def make_text(chains, n_gram_size):
 def validate_n_gram_amount(input_text):
     """gets user input, returns int if int can be used as n gram"""
     while True:
-        user_input = raw_input("How many words in n_gram? > ")
+        #user input is now the entered on command line
+        user_input = sys.argv[2]
+        # user_input = raw_input("How many words in n_gram? > ") #old version
         try:
             user_input = int(user_input)
         except:
