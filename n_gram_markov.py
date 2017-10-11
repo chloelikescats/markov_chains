@@ -43,7 +43,8 @@ def make_chains(text_string, n_gram_size):
         [None]
     """
     list_of_words = text_string.split()
-    list_of_words.append(None)  #so we know when to end
+    #so we know when to end:
+    # list_of_words.append(None) #adds none to end of list so it will be last in last key
     chains = {}
 
     # for word in list_of_words:
@@ -51,43 +52,46 @@ def make_chains(text_string, n_gram_size):
     value = list_of_words[n_gram_size + 1]
     chains[key] = [value]
 
-
     #using i and n_gram_size to incriment through list and get keys
     for i in range(1, len(list_of_words) - n_gram_size):
         key = []
         key = tuple(list_of_words[i:n_gram_size + i])
-  
+
         value = list_of_words[n_gram_size + i]
-        chains.setdefault(key, [])  #if key exists, awesome; else, make [] value
+        #if key exists, awesome; else, make [] value:
+        chains.setdefault(key, [])
         chains[key].append(value)
 
     # print chains
     return chains
 
 
-def make_text(chains, n_gram_size): #
+def make_text(chains, n_gram_size):
     """Return text from chains."""
 
     words = ['\n']
 
-    new_key = choice(chains.keys())
+    key = choice(chains.keys())
     ###Choosing length of key
-    words.extend(new_key)
+    words.extend(key)
 
     # options_at_random_thing = chains[random_thing]
     # random_word = choice(options_at_random_thing)
     # words.append(random_word)
 
     while True:
-        if None in chains[new_key]:
+        if (not key in chains) or len(words) > 1000:
             words.append("\n")
             break
         else:
-            words.append(choice(chains[new_key]))
-            new_key = []
-            for i in range(-1 * n_gram_size):
-                new_key.append(words[i])
-            new_key = tuple(new_key)
+            # print chains
+            new_word = choice(chains[key])
+            words.append(new_word)
+
+            #get new key with last n_gram_size elements of words list
+            key = words[-n_gram_size:]
+            key = tuple(key)
+
     #make line breaks at punctuation
     for i in range(len(words)):
         if words[i][-1] in string.punctuation:
@@ -107,7 +111,7 @@ def validate_n_gram_amount(input_text):
         except:
             print "Please enter a valid input"
             continue
-        if user_input < len(input_text.split()):
+        if 1 < user_input < len(input_text.split()):
             return user_input
         else:
             length = str(len(input_text.split()))
@@ -128,7 +132,6 @@ chains = make_chains(input_text, n_gram_size)
 
 # Produce random text
 random_text = make_text(chains, n_gram_size)
-
 
 
 print random_text

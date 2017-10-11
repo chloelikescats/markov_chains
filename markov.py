@@ -77,7 +77,7 @@ def make_text(chains):
             words.append("\n")
             break
         else:
-            words.append(choice(chains[new_key]))
+            words.append(choice(new_key.values()))
             new_key = (words[-2], words[-1])
     #make line breaks at punctuation
     for i in range(len(words)):
